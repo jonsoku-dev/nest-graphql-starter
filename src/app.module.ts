@@ -21,7 +21,7 @@ export interface GqlContext {
         NODE_ENV: Joi.string()
           .valid('development', 'production', 'test', 'provision')
           .default('development'),
-        PORT: Joi.number().default(4999),
+        PORT: Joi.number().default(5001),
       }),
     }),
     GraphQLModule.forRoot({
