@@ -8,6 +8,7 @@ import { ConfigModule } from '@nestjs/config';
 import * as Joi from 'joi';
 import { AuthModule } from './auth/auth.module';
 import { USER_KEY, USER_TOKEN } from './common/common.constant';
+import { PostsModule } from './posts/posts.module';
 
 export interface GqlContext {
   userToken?: string;
@@ -17,11 +18,13 @@ export interface GqlContext {
 @Module({
   imports: [
     ConfigModule.forRoot({
+      isGlobal: true,
+      envFilePath:
+        process.env.NODE_ENV === 'dev' ? '.env.development' : '.env.test',
+      ignoreEnvFile: process.env.NODE_ENV === 'prod',
       validationSchema: Joi.object({
-        NODE_ENV: Joi.string()
-          .valid('development', 'production', 'test', 'provision')
-          .default('development'),
-        PORT: Joi.number().default(5001),
+        PORT: Joi.number().required(),
+        TEST_API_URI: Joi.string().required(),
       }),
     }),
     GraphQLModule.forRoot({
@@ -41,6 +44,7 @@ export interface GqlContext {
     CatsModule,
     CommonModule,
     AuthModule,
+    PostsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
