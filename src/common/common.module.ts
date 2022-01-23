@@ -1,4 +1,7 @@
 import { Module } from '@nestjs/common';
+import { LoggingPlugin } from './logging.plugin';
 
-@Module({})
+@Module({
+  imports: [LoggingPlugin],
+})
 export class CommonModule {}

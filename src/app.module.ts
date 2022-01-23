@@ -9,6 +9,7 @@ import * as Joi from 'joi';
 import { AuthModule } from './auth/auth.module';
 import { USER_KEY, USER_TOKEN } from './common/common.constant';
 import { PostsModule } from './posts/posts.module';
+import { AxiosModule } from './axios/axios.module';
 
 export interface GqlContext {
   userToken?: string;
@@ -27,6 +28,9 @@ export interface GqlContext {
         TEST_API_URI: Joi.string().required(),
       }),
     }),
+    AxiosModule.forRoot({
+      postUri: process.env.TEST_API_URI,
+    }),
     GraphQLModule.forRoot({
       autoSchemaFile: true,
       sortSchema: true,
@@ -41,10 +45,11 @@ export interface GqlContext {
         };
       },
     }),
-    CatsModule,
     CommonModule,
     AuthModule,
+    CatsModule,
     PostsModule,
+    AxiosModule,
   ],
   controllers: [AppController],
   providers: [AppService],
